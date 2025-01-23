@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -17,42 +17,43 @@ describe('<App />', () => {
         expect(wrapper).toHaveLength(1);
     });
 
-    it('renders <Notifications />', () => {
+    it('renders an <App /> component checking for <Notifications />', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(Notifications)).toHaveLength(1);
     });
 
-    it('renders <Header />', () => {
+    it('renders an <App /> component checking for <Header />', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(Header)).toHaveLength(1);
     });
 
-    it('renders <Login /> when isLoggedIn is false', () => {
+    it('renders an <App /> component checking for <Login />', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(Login)).toHaveLength(1);
     });
 
-    it('does not render <CourseList /> when isLoggedIn is false', () => {
+    it('tests to check that CourseList is not displayed', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(CourseList)).toHaveLength(0);
     });
 
-    it('renders <Footer />', () => {
+    it('renders an <App /> component checking for <Footer />', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(Footer)).toHaveLength(1);
     });
 
-    it('does not render <Login /> when isLoggedIn is true', () => {
-        const wrapper = shallow(<App isLoggedIn={true} />);
+    // When isLoggedIn is true or user is logged into app
+    it('verifies that the Login component is not included.', () => {
+        const wrapper = shallow(<App isLoggedIn={ true } />);
         expect(wrapper.find(Login)).toHaveLength(0);
     });
 
-    it('renders <CourseList /> when isLoggedIn is true', () => {
-        const wrapper = shallow(<App isLoggedIn={true} />);
+    it('verifies that the Login component is not included.', () => {
+        const wrapper = shallow(<App isLoggedIn={ true } />);
         expect(wrapper.find(CourseList)).toHaveLength(1);
     });
 
-    it('verifies that the user can log out using ctrl + h', () => {
+    it('verifies that the user canlog out using ctrl + h', () => {
         const events = {};
         window.addEventListener = jest.fn().mockImplementation((e, cb) => {
             events[e] = cb;
@@ -60,22 +61,14 @@ describe('<App />', () => {
 
         const props = {
             isLoggedIn: true,
-            logOut: jest.fn(),
-        };
-
+            logOut: jest.fn()
+        }
         window.alert = jest.fn();
 
-        // Use `mount` instead of `shallow` for lifecycle methods
-        const wrapper = mount(<App {...props} />);
-
-        // Simulate the keydown event
+        const wrapper = shallow(<App {...props} />);
         events.keydown({ ctrlKey: true, key: 'h' });
-
-        // Assertions
         expect(window.alert).toHaveBeenCalledWith("Logging you out");
         expect(props.logOut).toHaveBeenCalled();
-
-        // Restore mocks
         window.alert.mockRestore();
-    });
+    })
 });

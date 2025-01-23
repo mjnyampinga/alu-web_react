@@ -12,7 +12,6 @@ module.exports = ({ mode } = { mode: "production" }) => {
         path: path.resolve(__dirname, '../dist'),
         filename: 'bundle.js'
     },
-    devtool: "inline-source-map",
     devServer: {
       static: {
         directory: path.join(__dirname, '../dist')

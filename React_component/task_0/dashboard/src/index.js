@@ -4,7 +4,7 @@ import App from './App/App';
 import { Notifications } from './Notifications/Notifications';
 
 const rootId = document.getElementById("root");
-
+// isLoggedIn={true}
 ReactDOM.render(
   <>
       <App />
